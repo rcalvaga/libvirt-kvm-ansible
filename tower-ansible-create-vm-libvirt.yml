@@ -9,7 +9,7 @@
 
     - name: create disk
       command: >
-               virt-builder --format "{{ vm_disk_type }}" "{{ vm_name }}" --hostname "{{ vm_hostname }}"
+               virt-builder --format "{{ vm_disk_type }}" "{{ template_name }}" --hostname "{{ vm_hostname }}"
                -o "{{ vm_location}}/{{ vm_name }}.{{ vm_disk_type }}"
                --root-password password:{{ root_pass }}
       when: vm_name not in disks.stdout
