@@ -21,9 +21,9 @@
 
     - name: create vm
       command: >
-                virt-install --import --name {{ vm_name }}
-                --memory {{ vm_memory }} --vcpus {{ vm_cpus }}
-                --disk {{ vm_location }}/{{ vm_name }}.{{ vm_disk_type }}
+                virt-install --import --name "{{ vm_name }}"
+                --memory "{{ vm_memory }}" --vcpus "{{ vm_cpus }}"
+                --disk "{{ vm_location }}/{{ vm_name }}.{{ vm_disk_type }}"
                 --noautoconsole
       when: vm_name not in vms.list_vms
 
