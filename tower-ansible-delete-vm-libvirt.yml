@@ -4,18 +4,15 @@
   tasks:
   - name: shutting down vm
     virt:
-      name: "{{ item.value.name }}"
+      name: "{{ vm_name }}"
       state: shutdown
-    with_dict: "{{ guests }}"
 
   - name: deleting vm
     virt:
-      name: "{{ item.value.name }}"
+      name: "{{ vm_name }}"
       command: "undefine"
-    with_dict: "{{ guests }}"
 
   - name: deleting vm disks
     file:
-      path: "{{ vm_location}}/{{ item.value.name }}.{{ item.value.file_type }}"
+      path: "{{ vm_location}}/{{ vm_name }}.{{ vm_disk_type }}"
       state: absent
-    with_dict: "{{ guests }}"
