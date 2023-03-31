@@ -1,0 +1,31 @@
+---
+- name: create VM from Template
+  hosts: kvm-nodes
+  tasks:
+    - name: get VM disks
+      command: "ls {{ vm_location }}"
+      register: disks
+      changed_when: "disks.rc != 0"
+
+    - name: create disk from template
+      command: >
+               cp "{{ vm_location }}/templates/{{ template_name }}" "{{ vm_location}}/{{ vm_name }}.{{ vm_disk_type }}"
+      when: vm_name not in disks.stdout
+
+    - name: get list of VMs
+      virt:
+        command: "list_vms"
+      register: vms
+
+    - name: create vm
+      command: >
+                virt-install --import --name "{{ vm_name }}"
+                --memory "{{ vm_memory }}" --vcpus "{{ vm_cpus }}"
+                --disk "{{ vm_location }}/{{ vm_name }}.{{ vm_disk_type }}"
+                --noautoconsole --os-variant linux2020
+      when: vm_name not in vms.list_vms
+
+    - name: start vm
+      virt:
+        name: "{{ vm_name }}"
+        state: running
