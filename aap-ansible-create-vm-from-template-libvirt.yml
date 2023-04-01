@@ -29,3 +29,15 @@
       virt:
         name: "{{ vm_name }}"
         state: running
+        
+    - name: Get First Admin IP Address from VM
+      command: uvt-kvm ip "{{ vm_name }}"
+      register: vm_ip
+      until: vm_ip is success
+      retries: 5
+      delay: 10
+
+    - name: Set Stats for VM IP
+      set_stats:
+        data: 
+          vm_ip: "{{ vm_ip.stdout }}"
