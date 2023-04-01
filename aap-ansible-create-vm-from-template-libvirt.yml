@@ -23,6 +23,7 @@
                 --memory "{{ vm_memory }}" --vcpus "{{ vm_cpus }}"
                 --disk "{{ vm_location }}/{{ vm_name }}.{{ vm_disk_type }}"
                 --noautoconsole --os-variant linux2020
+                --network network=default,link.state=true --network network=host-bridge,link.state=true
       when: vm_name not in vms.list_vms
 
     - name: start vm
