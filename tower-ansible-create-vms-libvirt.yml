@@ -26,6 +26,7 @@
                 --memory {{ item.value.mem }} --vcpus {{ item.value.cpus }}
                 --disk {{ vm_location }}/{{ item.value.name }}.{{ item.value.file_type }}
                 --noautoconsole --os-variant {{ item.value.os_type }}
+                --network network=default,link.state=true --network network=host-bridge,link.state=true
       when: item.value.name not in vms.list_vms
       with_dict: "{{ guests }}"
 
@@ -34,3 +35,18 @@
         name: "{{ item.value.name }}"
         state: running
       with_dict: "{{ guests }}"
+      
+    - name: Get First Admin IP Address from each VM
+      command: uvt-kvm ip "{{ item.value.name }}"
+      register: "{{ item.value.name }}"
+      until: "{{ item.value.name }}" is success
+      retries: 5
+      delay: 10
+      with_dict: "{{ guests }}"
+
+    - name: Set Stats for each VM and IP
+      set_stats:
+        data: 
+          vm_ip: "{{ item.value.name.stdout }}"
+      with_dict: "{{ guests }}"
+
