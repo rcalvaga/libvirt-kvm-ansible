@@ -38,15 +38,15 @@
       
     - name: Get First Admin IP Address from each VM
       command: uvt-kvm ip "{{ item.value.name }}"
-      register: "{{ item.value.name }}"
-      until: "{{ item.value.name }}" is success
+      register: vm_ip
+      until: vm_ip is success
       retries: 5
       delay: 10
       with_dict: "{{ guests }}"
 
-    - name: Set Stats for each VM and IP
-      set_stats:
-        data: 
-          vm_ip: "{{ item.value.name.stdout }}"
-      with_dict: "{{ guests }}"
+    #- name: Set Stats for each VM and IP
+    #  set_stats:
+    #    data: 
+    #      vm_ip: "{{ item.value.name.stdout }}"
+    #  with_dict: "{{ guests }}"
 
