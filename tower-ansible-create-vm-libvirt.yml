@@ -1,6 +1,7 @@
 ---
 - name: create VM
   hosts: kvm-nodes
+  gather_facts: false
   tasks:
     - name: get VM disks
       command: "ls {{ vm_location }}"
