@@ -3,12 +3,12 @@
   hosts: kvm-nodes
   tasks:
   - name: shutting down vm
-    virt:
+    community.libvirt.virt:
       name: "{{ vm_name }}"
       state: shutdown
 
   - name: deleting vm
-    virt:
+    community.libvirt.virt:
       name: "{{ vm_name }}"
       command: "undefine"
 
