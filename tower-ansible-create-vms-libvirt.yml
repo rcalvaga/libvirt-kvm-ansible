@@ -16,7 +16,7 @@
       with_dict: "{{ guests }}"
 
     - name: get list of VMs
-      virt:
+      community.libvirt.virt:
         command: "list_vms"
       register: vms
 
@@ -31,7 +31,7 @@
       with_dict: "{{ guests }}"
 
     - name: start vm
-      virt:
+      community.libvirt.virt:
         name: "{{ item.value.name }}"
         state: running
       with_dict: "{{ guests }}"
