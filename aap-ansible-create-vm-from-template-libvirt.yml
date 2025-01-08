@@ -13,7 +13,7 @@
       when: vm_name not in disks.stdout
 
     - name: get list of VMs
-      virt:
+      community.libvirt.virt:
         command: "list_vms"
       register: vms
 
@@ -27,7 +27,7 @@
       when: vm_name not in vms.list_vms
 
     - name: start vm
-      virt:
+      community.libvirt.virt:
         name: "{{ vm_name }}"
         state: running
         
