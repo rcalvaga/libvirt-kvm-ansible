@@ -12,7 +12,7 @@
       command: >
                virt-builder "{{ template_name }}" --format "{{ vm_disk_type }}" --hostname "{{ vm_hostname }}"
                -o "{{ vm_location}}/{{ vm_name }}.{{ vm_disk_type }}"
-               --root-password password:{{ root_pass }} --no-network
+               --root-password password:{{ root_pass }}
       when: vm_name not in disks.stdout
 
     - name: get list of VMs
